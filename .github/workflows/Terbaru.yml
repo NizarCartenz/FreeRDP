@@ -20,7 +20,7 @@ jobs:
     - name: Connect to Ngrok.
       run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
     - name: Enabling access to RDP
       run: | 
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
@@ -29,8 +29,10 @@ jobs:
         copy wallpaper.png C:\Users\Public\Desktop\wallpaper.png
         copy wallpaper.bat C:\Users\Public\Desktop\wallpaper.bat
     - name: Open Tunnel.
-      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
+      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 22 --region ap 3389"'
     - name: Connect to your RDP
       run: cmd /c start.bat
     - name: Successfully made! You can close the tab now.
       run: cmd /c loop.bat
+
+      
